@@ -3,16 +3,17 @@ const path = require('path');
 const archiver = require('archiver');
 const { v4: uuidv4 } = require('uuid');
 const { Document, Packer, Paragraph } = require('docx');
+const shuffleArray = require('./shufflerHook')
 
 // ... existing helper functions (shuffleArray, saveDocxFile, saveTxtFile)
 
 // Helper to shuffle an array
-function shuffleArray(array) {
-	return array
-		.map((value) => ({ value, sort: Math.random() }))
-		.sort((a, b) => a.sort - b.sort)
-		.map(({ value }) => value);
-}
+// function shuffleArray(array) {
+// 	return array
+// 		.map((value) => ({ value, sort: Math.random() }))
+// 		.sort((a, b) => a.sort - b.sort)
+// 		.map(({ value }) => value);
+// }
 
 //   // Save .txt file
 // function saveTxtFile(filename, content) {
@@ -194,4 +195,4 @@ async function Randomize (data) {
 	}
 }
 
-module.exports = {Randomize}
+module.exports = Randomize
