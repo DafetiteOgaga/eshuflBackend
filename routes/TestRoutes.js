@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Tests = require('../models/TestQuestions')
 const Randomize = require('../hooks/Randomize')
-const shuffleArray = require('../hooks/shufflerHook')
+// const shuffleArray = require('../hooks/shufflerHook')
 
 // home endpoint
 router.get('/', (req, res) => {
@@ -32,6 +32,7 @@ router.post(allPoints.randomize, async (req, res) => {
 router.post(allPoints.createTests, async (req, res) => {
 	try {
 		console.log('trying to create or update test ...');
+		console.log('received request body:', req.body);
 		const { info, questions } = req.body;
 		const { subject, typeCategory, classCategory } = info;
 
