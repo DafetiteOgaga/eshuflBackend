@@ -183,10 +183,10 @@ router.post(allPoints.preTests, async (req, res) => {
 });
 
 // 📂 Get all users
-// router.get('/users', async (req, res) => {
-//   const users = await User.find(); // 🔍 Get all users
-//   console.log({ users }); // 🖥️ Log them
-//   res.send(users); // ✅ Send them back
-// });
+router.get('/testtests', async (req, res) => {
+  const alltesttests = await Tests.find(); // Get all tests
+  console.log({ alltesttests }); // Log them
+  res.send(alltesttests); // Send them back
+});
 
 module.exports = router;
