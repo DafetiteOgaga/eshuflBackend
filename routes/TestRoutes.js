@@ -28,7 +28,7 @@ router.post(allPoints.randomize, async (req, res) => {
 	res.status(201).send({'success': 'Success', downloadLink});
 });
 
-  // ✏️ Submit/create new test questions (POST request)
+// Submit/create new test questions (POST request)
 router.post(allPoints.createTests, async (req, res) => {
 	try {
 		console.log('trying to create or update test ...');
@@ -122,8 +122,10 @@ router.post(allPoints.takeTests, async (req, res) => {
 		classCategory: info.classCategory,
 	});
 	if (!getQuestions) {
-		console.log('No test found for the given criteria.');
-		return res.status(404).json({ error: 'Test not found.' });
+		const noTestFound = 'No test found for the given criteria.'
+		console.log(noTestFound);
+		// return res.status(404).json({ error: 'Test not found.' });
+		return res.status(200).send({ error: noTestFound });
 	}
 	console.log('Found test:', getQuestions);
 	// console.log(
@@ -150,17 +152,19 @@ router.post(allPoints.preTests, async (req, res) => {
 		classCategory,
 		subject,
 		duration,
-		id, } = req.body;
-		console.log(
-			'results:',{
-					name,
-					email,
-					typeCategory,
-					classCategory,
-					subject,
-					duration,
-					id
-				});
+		id,
+	} = req.body;
+	console.log(
+		'results:',{
+				name,
+				email,
+				typeCategory,
+				classCategory,
+				subject,
+				duration,
+				id
+			}
+		);
 	// const tests = await Tests.find({
 	// 	name,
 	// 	email,
