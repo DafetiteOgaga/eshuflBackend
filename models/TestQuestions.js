@@ -1,9 +1,11 @@
+require('dotenv').config(); // loads .env variables
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/myapp', {
+mongoose.connect(process.env.MONGODB_URI, {
+	// 'mongodb://localhost:27017/myapp', {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
-}).then(() => console.log('MongoDB Connected\n\n'))
+}).then(() => console.log('MongoDB Connected with Atlas\n\n'))
 .catch((err) => console.error('Connection error', err));
 
 const QuestionSchema = new mongoose.Schema({
