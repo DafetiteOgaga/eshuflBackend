@@ -23,12 +23,7 @@ console.log(
   '\nserver origin from env:', process.env.SERVER_ORIGIN,
   '\n', ash.repeat(5),
 )
-if (process.env.NODE_ENV !== 'production') {
-  const portNumber = 4000; // 🔢 Port number
-  app.listen(portNumber, () => {
-    console.log(`Server running on http://localhost:${portNumber}`);
-  });
-} else {
-  // vercel deployment
-  module.exports = app;
-}
+const portNumber = process.env.PORT||4000; // 🔢 Port number
+app.listen(portNumber, () => {
+  console.log(`Server running on http://localhost:${portNumber}`);
+});
