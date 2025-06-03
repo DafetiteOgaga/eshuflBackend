@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const router = require('./routes/TestRoutes')
+const { cleanOldFilesAndDirs } = require('./hooks/cleanOldFilesAndDirs')
+const { runCheckEvery } = require('./hooks/checkTime');
 // const mongoose = require('mongoose');
 
 const app = express();
@@ -26,4 +28,10 @@ console.log(
 const portNumber = process.env.PORT||4000; // 🔢 Port number
 app.listen(portNumber, () => {
   console.log(`Server running on http://localhost:${portNumber}`);
+
+  cleanOldFilesAndDirs()
+
+  setInterval(() => {
+    cleanOldFilesAndDirs()
+  }, runCheckEvery);
 });

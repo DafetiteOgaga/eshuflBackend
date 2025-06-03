@@ -7,7 +7,7 @@ const Randomize = require('../hooks/Randomize')
 
 // home endpoint
 router.get('/', (req, res) => {
-	res.send('Welcome to My World!\nWont you come on in?'); // ✅ Respond with a message
+	res.send('Welcome to My World!\nWont you come on in?'); // Respond with a message
 });
 
 // all endpoints
@@ -23,6 +23,7 @@ const allPoints = {
 // ✏️ Randomize exam questions (POST request)
 router.post(allPoints.randomize, async (req, res) => {
 	const received = req.body;
+	console.log({received});
 	const downloadLink = await Randomize(received);
 	console.log({ downloadLink });
 	res.status(201).send({'success': 'Success', downloadLink});
@@ -97,17 +98,9 @@ router.post(allPoints.createTests, async (req, res) => {
 
 // ✏️ Submit answered test questions (POST request)
 router.post(allPoints.submitTests, async (req, res) => {
-	const received = req.body; // 🖥️ Log the request body
-	// console.log(JSON.stringify(received, null, 2)); // 🖥️ Log the request body
-	// const {email, name} = req.body; // 🧊 Create a user from request
-	// await user.save(); // 💾 Save to database
-	// const newUser = await User.create({email, name}); // 💾 Save to database
-	// console.log({ newUser }); // 🖥️ Log the new user
-	// res.status(201).send(newUser); // ✅ Respond with created user
-	// const downloadLink = await Randomize(received); // 🔄 Randomize the data
-	// console.log('take-tests:', received); // 🖥️ Log the result
-	console.log(`${allPoints.submitTests} <<< :`, JSON.stringify(received, null, 2)); // 🖥️ Log the result
-	res.status(201).send({'success': 'Success'}); // ✅ Respond with created user
+	const received = req.body;
+	console.log(`${allPoints.submitTests} <<< :`, JSON.stringify(received, null, 2));
+	res.status(201).send({'success': 'Success'});
 });
 // ✏️ Take test questions (GET request)
 router.post(allPoints.takeTests, async (req, res) => {
@@ -138,7 +131,7 @@ router.post(allPoints.takeTests, async (req, res) => {
 	// console.log('shuffledQuestions:', shuffledQuestions);
 	// console.log(`${allPoints.takeTests} <<< :`, JSON.stringify(received, null, 2));
 	// console.log({sendGet})
-	res.send(infoAndQuestions); // ✅ Respond with a message
+	res.send(infoAndQuestions);
 });
 
 // ✏️ Request-test (POST request)
@@ -165,28 +158,14 @@ router.post(allPoints.preTests, async (req, res) => {
 				id
 			}
 		);
-	// const tests = await Tests.find({
-	// 	name,
-	// 	email,
-	// 	typeCategory,
-	// 	classCategory,
-	// 	subject,
-	// 	duration })
-	// console.log('tests:', { tests });
-	// await user.save(); // 💾 Save to database
-	// const newUser = await User.create({email, name}); // 💾 Save to database
-	// console.log({ newUser }); // 🖥️ Log the new user
-	// res.status(201).send(newUser); // ✅ Respond with created user
-	// const downloadLink = await Randomize(received); // 🔄 Randomize the data
-	// console.log('duration:', received.duration)
 	res.status(201).send({
 		'success': 'Success',
 		'goto': allPoints.takeTests,
 		'info': { name, email, typeCategory, classCategory, subject, duration, id },
-	}); // ✅ Respond with created user
+	});
 });
 
-// 📂 Get all users
+// Get all tests
 router.get('/testtests', async (req, res) => {
   const alltesttests = await Tests.find(); // Get all tests
   console.log({ alltesttests }); // Log them
