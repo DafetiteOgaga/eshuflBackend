@@ -1,11 +1,18 @@
 require('dotenv').config(); // loads .env variables
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB_URI, {
-	// 'mongodb://localhost:27017/myapp', {
+let mongoUri
+if (process.env.NODE_ENV === 'production') {
+	mongoUri = process.env.MONGODB_URI;
+} else if (process.env.NODE_ENV === 'development') {
+	mongoUri = 'mongodb://localhost:27017/myapp'
+}
+console.log('\nConnecting to MongoDB...\n', mongoUri);
+
+mongoose.connect(mongoUri, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
-}).then(() => console.log('MongoDB Connected with Atlas\n\n'))
+}).then(() => console.log(`MongoDB Connected to ${process.env.NODE_ENV === 'production'?'Atlas':process.env.NODE_ENV === 'development'?'Local':'I dont know this'} DB\n\n`))
 .catch((err) => console.error('Connection error', err));
 
 const QuestionSchema = new mongoose.Schema({
