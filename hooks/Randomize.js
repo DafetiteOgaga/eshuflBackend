@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { deleteTime } = require('./checkTime');
 const archiver = require('archiver');
 const { v4: uuidv4 } = require('uuid');
 const { Document, Packer, Paragraph } = require('docx');
@@ -8,6 +9,7 @@ const { Document, Packer, Paragraph } = require('docx');
 
 // Helper to shuffle an array
 function shuffleArray(array) {
+	console.log('shuffling array:', array);
 	return array
 		.map((value) => ({ value, sort: Math.random() }))
 		.sort((a, b) => a.sort - b.sort)
@@ -183,7 +185,33 @@ async function Randomize (data) {
 
 		return new Promise((resolve, reject) => {
 			output.on('close', () => {
-				resolve(`/public/${zipFilename}`);
+				const filePath = `/public/${zipFilename}`;
+				// Schedule deletion in 5 hours
+				setTimeout(() => {
+					try {
+						// Delete ZIP file
+						fs.unlink(zipPath, (err) => {
+							if (err) {
+								console.error(`Error deleting ZIP file ${zipPath}:`, err);
+							} else {
+								console.log(`ZIP file ${zipPath} deleted after 5 hours.`);
+							}
+						});
+				
+						// Delete directory and its contents
+						fs.rm(dirPath, { recursive: true, force: true }, (err) => {
+							if (err) {
+								console.error(`Error deleting directory ${dirPath}:`, err);
+							} else {
+								console.log(`Directory ${dirPath} deleted after 5 hours.`);
+							}
+						});
+					} catch (err) {
+						console.error('Error in scheduled cleanup:', err);
+					}
+				}, deleteTime);
+
+				resolve(filePath);
 			});
 			output.on('error', reject);
 		});
@@ -194,4 +222,4 @@ async function Randomize (data) {
 	}
 }
 
-module.exports = {Randomize}
+module.exports = Randomize
