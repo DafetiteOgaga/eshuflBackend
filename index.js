@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const router = require('./routes/TestRoutes')
+const fs = require('fs');
 const { cleanOldFilesAndDirs } = require('./hooks/cleanOldFilesAndDirs')
 const { runCheckEvery } = require('./hooks/checkTime');
 // const mongoose = require('mongoose');
@@ -13,7 +14,12 @@ app.use(router)
 // ##########################################################
 // const { Randomize } = require('./hooks/Randomize');
 const path = require('path');
-app.use('/public', express.static(path.join(__dirname, 'hooks', 'public')));
+const publicPath = path.join(__dirname, 'hooks', 'public');
+
+if (!fs.existsSync(publicPath)) {
+  fs.mkdirSync(publicPath, { recursive: true });
+}
+app.use('/public', express.static(publicPath));
 // ##########################################################
 
 const ash = '#####'
