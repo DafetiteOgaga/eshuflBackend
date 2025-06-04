@@ -1,0 +1,11 @@
+const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
+const monthOfYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const now = new Date()
+const minute = now.getMinutes()
+const hour = now.getHours()
+const date = now.getDate()
+const month = monthOfYear[now.getMonth()]
+const day = daysOfWeek[now.getDay()]
+const year = now.getFullYear()
+const timestamp = `@${hour}:${minute} on ${day}, ${month}, ${date}, ${year}`
+module.exports = { timestamp }

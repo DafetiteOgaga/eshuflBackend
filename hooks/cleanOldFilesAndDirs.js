@@ -1,12 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const { timestamp } = require('./timestamp')
 const { deleteTime } = require('./checkTime');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
 function cleanOldFilesAndDirs(dir = PUBLIC_DIR) {
 	fs.readdir(dir, (err, entries) => {
 		if (err) {
-			console.error('Error reading directory:', err);
+			console.error(`Error reading directory ${timestamp}:`, err);
 			return;
 		}
 
@@ -50,7 +51,7 @@ function cleanOldFilesAndDirs(dir = PUBLIC_DIR) {
 			if (age > deleteTime) {
 				fs.stat(fullPath, (err, stats) => {
 					if (err) {
-						console.error(`Error getting stats for ${entry}:`, err);
+						console.error(`Error getting stats for ${entry} ${timestamp}:`, err);
 						return;
 					}
 
@@ -58,18 +59,18 @@ function cleanOldFilesAndDirs(dir = PUBLIC_DIR) {
 						// Delete directory recursively
 						fs.rm(fullPath, { recursive: true, force: true }, (err) => {
 							if (err) {
-								console.error(`Failed to delete directory ${entry}:`, err);
+								console.error(`Failed to delete directory ${entry} ${timestamp}:`, err);
 							} else {
-								console.log(`Deleted old directory: ${entry}`);
+								console.log(`Deleted old directory: ${entry} ${timestamp}`);
 							}
 						});
 					} else {
 						// Delete file
 						fs.unlink(fullPath, (err) => {
 							if (err) {
-								console.error(`Failed to delete file ${entry}:`, err);
+								console.error(`Failed to delete file ${entry} ${timestamp}:`, err);
 							} else {
-								console.log(`Deleted old file: ${entry}`);
+								console.log(`Deleted old file: ${entry} ${timestamp}`);
 							}
 						});
 					}
