@@ -10,27 +10,20 @@ const { Document, Packer, Paragraph } = require('docx');
 
 // Helper to shuffle an array
 function shuffleArray(array) {
-	console.log('shuffling array:', array);
+	// console.log('shuffling array:', array);
 	return array
 		.map((value) => ({ value, sort: Math.random() }))
 		.sort((a, b) => a.sort - b.sort)
 		.map(({ value }) => value);
 }
 
-//   // Save .txt file
-// function saveTxtFile(filename, content) {
-// 	const filePath = path.join(__dirname, 'public', filename);
-// 	fs.writeFileSync(filePath, content, 'utf-8');
-// 	return `/public/${filename}`;
-// }
-
-//   // Save .docx file
-// async function saveDocxFile(filename, doc) {
-// 	const buffer = await Packer.toBuffer(doc);
-// 	const filePath = path.join(__dirname, 'public', filename);
-// 	fs.writeFileSync(filePath, buffer);
-// 	return `/public/${filename}`;
-// }
+// utility function to generate uppercase alphabets array from a value
+function generateUppercaseAlphabetList(lengthOfAlphabets) {
+	return Array.from({ length: Number(lengthOfAlphabets) }, (_, i) =>
+	  	String.fromCharCode(65 + i) // uppercase alphabets
+		// String.fromCharCode(97 + i) // lowercase alphabets
+	);
+}
 
 // app.post('/generate', async (req, res) => {
 async function Randomize (data) {
@@ -54,8 +47,12 @@ async function Randomize (data) {
 		let ansTxtPath
 		let dirPath
 
-		const types = ['A', 'B', 'C', 'D', 'E'];
-		for (let i = 0; i < types.length; i++) {
+		const types = generateUppercaseAlphabetList(data.noOfTypes);
+		console.log(
+			'\nnoOfTypes:', data.noOfTypes,
+			'\ngenerateUppercaseAlphabetList:', generateUppercaseAlphabetList(data.noOfTypes),
+		)
+		for (let i = 0; i < data.noOfTypes; i++) {
 			const shuffledQuestions = shuffleArray([...data.postQuestions]);
 			const answerKey = [];
 
