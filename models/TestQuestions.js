@@ -1,5 +1,6 @@
 require('dotenv').config(); // loads .env variables
 const mongoose = require('mongoose');
+const { timestamp } = require('../hooks/timestamp')
 
 let mongoUri
 if (process.env.NODE_ENV === 'production') {
@@ -12,8 +13,8 @@ console.log('\nConnecting to MongoDB...\n', mongoUri);
 mongoose.connect(mongoUri, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
-}).then(() => console.log(`MongoDB Connected to ${process.env.NODE_ENV === 'production'?'Atlas':process.env.NODE_ENV === 'development'?'Local':'I dont know this'} DB\n\n`))
-.catch((err) => console.error('Connection error', err));
+}).then(() => console.log(`MongoDB Connected to ${process.env.NODE_ENV === 'production'?'Atlas':process.env.NODE_ENV === 'development'?'Local':'I dont know this'} DB ${timestamp}\n\n`))
+.catch((err) => console.error(`Connection error ${timestamp}`, err));
 
 const QuestionSchema = new mongoose.Schema({
 	question: { type: String, required: true, trim: true },
