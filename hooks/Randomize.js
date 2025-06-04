@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { timestamp } = require('./timestamp');
 const { deleteTime } = require('./checkTime');
 const archiver = require('archiver');
 const { v4: uuidv4 } = require('uuid');
@@ -192,22 +193,22 @@ async function Randomize (data) {
 						// Delete ZIP file
 						fs.unlink(zipPath, (err) => {
 							if (err) {
-								console.error(`Error deleting ZIP file ${zipPath}:`, err);
+								console.error(`Error deleting ZIP file ${zipPath} ${timestamp}:`, err);
 							} else {
-								console.log(`ZIP file ${zipPath} deleted after 5 hours.`);
+								console.log(`ZIP file ${zipPath} deleted after 5 hours ${timestamp}`);
 							}
 						});
 				
 						// Delete directory and its contents
 						fs.rm(dirPath, { recursive: true, force: true }, (err) => {
 							if (err) {
-								console.error(`Error deleting directory ${dirPath}:`, err);
+								console.error(`Error deleting directory ${dirPath} ${timestamp}:`, err);
 							} else {
-								console.log(`Directory ${dirPath} deleted after 5 hours.`);
+								console.log(`Directory ${dirPath} deleted after 5 hours ${timestamp}`);
 							}
 						});
 					} catch (err) {
-						console.error('Error in scheduled cleanup:', err);
+						console.error(`Error in scheduled cleanup ${timestamp}:`, err);
 					}
 				}, deleteTime);
 
@@ -217,7 +218,7 @@ async function Randomize (data) {
 		});
 
 	} catch (err) {
-		console.error('Error generating exam bundle:', err);
+		console.error(`Error generating exam bundle ${timestamp}:`, err);
 		throw new Error('Failed to generate exam bundle');
 	}
 }
