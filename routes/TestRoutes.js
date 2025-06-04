@@ -71,10 +71,10 @@ router.post(allPoints.createTests, async (req, res) => {
 				await existingTest.save();
 
 				console.log('appended questions to existing test document ...');
-				res.status(200).json({ success: true, message: 'Questions appended', testId: existingTest._id });
+				res.status(200).json({ success: 'success', message: 'Questions appended criteria section', testId: existingTest._id });
 			} else {
 				console.log('no new questions to append to existing test document ...');
-				res.status(200).json({ success: true, message: 'Questions appended', testId: existingTest._id });
+				res.status(200).json({ success: 'success', message: 'No new questions to append to criteria section', testId: existingTest._id });
 			}
 		} else {
 			console.log('creating new test ...');
@@ -88,11 +88,11 @@ router.post(allPoints.createTests, async (req, res) => {
 			await newTest.save();
 
 			console.log('created new test:', newTest._id);
-			res.status(201).json({ success: true, message: 'New test created', testId: newTest._id });
+			res.status(201).json({ success: 'success', message: 'New test created for criteria section', testId: newTest._id });
 		}
 	} catch (error) {
 		console.error('Error creating or updating test:', error);
-		res.status(500).json({ error: 'Failed to create or update test.' });
+		res.status(500).json({ error: 'Failed to create or update test for this criteria.' });
 	}
 });
 
